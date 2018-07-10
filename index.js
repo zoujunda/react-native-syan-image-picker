@@ -3,9 +3,9 @@ import {
     Dimensions,
 } from 'react-native';
 
-const { RNSyanImagePicker } = NativeModules;
+const {RNSyanImagePicker} = NativeModules;
 
-const { width } = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 /**
  * 默认参数
  */
@@ -18,7 +18,7 @@ const defaultOptions = {
     CropH: ~~(width * 0.6),    // 裁剪高度，默认屏幕宽度60%
     isGif: false,              // 是否允许选择GIF，默认false，暂无回调GIF数据
     showCropCircle: false,     // 是否显示圆形裁剪区域，默认false
-    circleCropRadius: width/2, // 圆形裁剪半径，默认屏幕宽度一半
+    circleCropRadius: width / 2, // 圆形裁剪半径，默认屏幕宽度一半
     showCropFrame: true,       // 是否显示裁剪区域，默认true
     showCropGrid: false,       // 是否隐藏裁剪区域网格，默认false
     quality: 90,               // 压缩质量
@@ -26,6 +26,19 @@ const defaultOptions = {
 };
 
 export default {
+
+    /**
+     * 打开图片浏览
+     *
+     * */
+    showImagePreView(options) {
+        const optionObj = {
+            ...defaultOptions,
+            ...options
+        };
+        RNSyanImagePicker.showImagePreView(optionObj)
+    },
+
     /**
      * 以Callback形式调用
      * 1、相册参数暂时只支持默认参数中罗列的属性；
@@ -43,7 +56,7 @@ export default {
      *
      * @param {Object} options 相册参数
      * @param {Function} callback 成功，或失败回调
-    */
+     */
     showImagePicker(options, callback) {
         const optionObj = {
             ...defaultOptions,
@@ -77,11 +90,11 @@ export default {
      *  }
      * @param {Object} options 相册参数
      * @return {Promise} 返回一个Promise对象
-    */
+     */
     asyncShowImagePicker(options) {
         const optionObj = {
-          ...defaultOptions,
-          ...options,
+            ...defaultOptions,
+            ...options,
         };
         return RNSyanImagePicker.asyncShowImagePicker(optionObj);
     },
@@ -93,7 +106,7 @@ export default {
      */
     openCamera(options, callback) {
         const optionObj = {
-                ...defaultOptions,
+            ...defaultOptions,
             ...options
         };
         RNSyanImagePicker.openCamera(optionObj, callback)

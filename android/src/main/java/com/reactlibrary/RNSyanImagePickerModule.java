@@ -55,6 +55,20 @@ public class RNSyanImagePickerModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
+    public void showImagePreView(ReadableMap options) {
+        this.cameraOptions = options;
+        this.mPickerPromise = null;
+        Activity currentActivity = getCurrentActivity();
+        List<LocalMedia> localMedias = new ArrayList<>();
+        for (int i = 0; i < options.getArray("previewImages").size(); i++) {
+            LocalMedia localMedia = new LocalMedia();
+            localMedia.setPath(options.getArray("previewImages").getMap(i).getString("icon"));
+            localMedias.add(localMedia);
+        }
+        PictureSelector.create(currentActivity).externalPicturePreview(options.getInt("position"), localMedias);
+    }
+
+    @ReactMethod
     public void showImagePicker(ReadableMap options, Callback callback) {
         this.cameraOptions = options;
         this.mPickerPromise = null;
@@ -90,6 +104,7 @@ public class RNSyanImagePickerModule extends ReactContextBaseJavaModule {
 
     /**
      * 移除选中的图片
+     *
      * @param {int} index 要移除的图片下标
      */
     @ReactMethod
@@ -277,6 +292,7 @@ public class RNSyanImagePickerModule extends ReactContextBaseJavaModule {
 
     /**
      * 获取图片base64编码字符串
+     *
      * @param bitmap Bitmap对象
      * @return base64字符串
      */
@@ -285,13 +301,14 @@ public class RNSyanImagePickerModule extends ReactContextBaseJavaModule {
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
         byte[] bytes = baos.toByteArray();
 
-        byte[] encode = Base64.encode(bytes,Base64.DEFAULT);
+        byte[] encode = Base64.encode(bytes, Base64.DEFAULT);
         String encodeString = new String(encode);
         return "data:image/jpeg;base64," + encodeString;
     }
 
     /**
      * 选择照片成功时触发
+     *
      * @param imageList 图片数组
      */
     private void invokeSuccessWithResult(WritableArray imageList) {
