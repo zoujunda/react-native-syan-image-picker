@@ -65,7 +65,8 @@ public class RNSyanImagePickerModule extends ReactContextBaseJavaModule {
             localMedia.setPath(options.getArray("previewImages").getMap(i).getString("icon"));
             localMedias.add(localMedia);
         }
-        PictureSelector.create(currentActivity).externalPicturePreview(options.getInt("position"), localMedias);
+        // PictureSelector.create(currentActivity).externalPicturePreview(options.getInt("position"), localMedias);
+        PictureSelector.create(currentActivity).themeStyle(R.style.picture_default_style).openExternalPreview(options.getInt("position"), localMedias);
     }
 
     @ReactMethod
